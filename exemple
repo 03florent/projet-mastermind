@@ -1,0 +1,211 @@
+### J'ai trouvé un programme entier de mastermind, on pourrait s'en inspirer :) ###
+
+
+import pygame, time, random
+
+def drawborder():
+    pygame.draw.rect(screen,[0,0,170],[0,0,600,900],100)
+    pygame.display.flip()
+    
+    word = "MasterMind"
+    screentext = font.render(word, True, [120,200,30], [0,0,0])
+    screen.blit(screentext, [200,18])
+    pygame.display.flip()
+    
+    for j in range (0,1000,50):
+        pygame.draw.circle(screen,[250,250,250],[25,j-25],25)
+    pygame.display.flip()
+    
+    for j in range (0,1000,50):
+        pygame.draw.circle(screen,[250,250,250],[575,j-25],25)
+    pygame.display.flip()
+    
+    for j in range (0,100,50):
+        pygame.draw.circle(screen,[250,250,250],[j+75,25],25)
+    pygame.display.flip()
+    
+    for j in range (400,500,50):
+        pygame.draw.circle(screen,[250,250,250],[j+75,25],25)
+    pygame.display.flip()
+    
+    for j in range (25,500,50):
+        pygame.draw.circle(screen,[250,250,250],[j+50,875],25)
+    pygame.display.flip()
+    
+def prepscreen():
+    pygame.draw.rect(screen, [250,250,250],[50,50,500,800],1)
+    pygame.display.flip()
+    
+    pygame.draw.line(screen, [250,250,250], [300,50], [300,850],1)
+    pygame.display.flip()
+        
+    for j in range(130,851,60):
+        pygame.draw.line(screen, [250,250,250], [50,j], [550,j],1)
+        pygame.display.flip()
+    
+    for j in range(1,13):
+        number = str(j)
+        screentext = smallfont.render(number, True, [250,250,250], [0,0,0])
+        screen.blit(screentext, [60,j*60+80])
+        pygame.display.flip()
+
+    word = "Guesses"
+    screentext = font.render(word, True, [30,150,30], [0,0,0])
+    screen.blit(screentext, [100,80])
+    pygame.display.flip()
+    
+    word = "Clues"
+    screentext = font.render(word, True, [30,150,30], [0,0,0])
+    screen.blit(screentext, [350,80])
+    pygame.display.flip()
+
+def secretword():
+    wordlist = ["LABEL", "CLOUD", "SKATE", "PRIZE", "ABOUT"]
+    length = len(wordlist)
+    index = random.randint(0,length-1)
+    choice = wordlist[index]
+    return choice
+
+def printword(turn,word):
+    screentext = font.render(word, True, [30,20,230], [0,0,0])
+    screen.blit(screentext, [95,145+turn*60])
+    pygame.display.flip()
+
+def instructions():
+    print "Welcome to Master Mind!  You will be asked to guess an ordinary English five-letter word.  You will see one gold circle for each right letter you have guessed, one green circle for each good letter that is not already right, and the rest red circles for letters that are completely incorrect. You will have twelve opportunities to guess the correct predetermined word of the game. "
+    time.sleep(25)
+    raw_input("Press ENTER to begin the game! ")
+
+def welcome():
+    for k in range (1, 450, 50):
+        pygame.draw.circle(screen, [255,255,255], [100+k, 100], 10,10)
+        pygame.display.flip()
+    
+    for k in range (1, 450, 50):
+        pygame.draw.circle(screen, [255,255,255], [100+k, 800], 10,10)
+        pygame.display.flip()
+    
+    word = "Game on!"
+    screentext = font.render(word, True, [15,156,180], [0,0,0])
+    screen.blit(screentext, [100, 400])
+    pygame.display.flip()
+    
+    time.sleep(3)
+    
+    pygame.draw.rect(screen, [0,0,0], [51, 51, 490, 790])
+    pygame.display.flip()
+
+def losescreen():
+    for j in range(51,501,100):
+        for k in range(51,801,100):       
+            pygame.draw.rect(screen,[100,100,100],[j,k,70,70])
+            pygame.display.flip()
+            time.sleep(0.01)
+    
+    word = "Sorry, you lose!"
+    screentext = font.render(word, True, [30,150,30], [0,0,0])
+    screen.blit(screentext, [130, 350])
+    pygame.display.flip()
+
+def winscreen():
+    for j in range (0,11):
+        if j%2==0:
+            letter = "Y"
+            screentext = font.render(letter, True, [255,255,0], [0,0,0])
+            screen.blit(screentext, [290,100])
+            pygame.display.flip()
+            time.sleep(0.05)
+            
+            letter = "O"
+            screentext = font.render(letter, True, [255,255,0], [0,0,0])
+            screen.blit(screentext, [285,200])
+            pygame.display.flip()
+            time.sleep(0.05)
+            
+            letter = "U"
+            screentext = font.render(letter, True, [255,255,0], [0,0,0])
+            screen.blit(screentext, [285,300])
+            pygame.display.flip()
+            time.sleep(0.05)
+            
+            letter = "W"
+            screentext = font.render(letter, True, [255,255,0], [0,0,0])
+            screen.blit(screentext, [275,500])
+            pygame.display.flip()
+            time.sleep(0.05)
+            
+            letter = "I"
+            screentext = font.render(letter, True, [255,255,0], [0,0,0])
+            screen.blit(screentext, [310,600])
+            pygame.display.flip()
+            time.sleep(0.05)
+            
+            letter = "N"
+            screentext = font.render(letter, True, [255,255,0], [0,0,0])
+            screen.blit(screentext, [285,700])
+            pygame.display.flip()
+            time.sleep(0.5)
+            
+        else:
+            pygame.draw.rect(screen,(0,0,0),(100,100,500,800),0)
+            pygame.display.flip()
+            time.sleep(0.5)
+
+def getguess():
+    word = ""
+    while len(word) != 5:
+         word = raw_input(" Enter a five letter word:   ")
+         word = word.strip()
+         word = word.upper()
+    return word
+         
+def showclues(turn,right,good):
+    for j in range(1,6):
+        if j <= right:
+            color = [255,204,0]
+        elif j<= good:
+            color= [0,255,0]
+        else:
+            color = [255,0,0]
+        pygame.draw.circle(screen,(color),(270+j*40,90+60*turn),20)
+        pygame.display.flip()
+
+def testforgood(guess, secret):
+    countgood = 0
+    for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        count = 0
+        for j in guess:
+            if letter == j:
+                count = count +1
+        count1 = 0
+        for k in secret:
+            if letter == k:
+                count1 = count1 + 1
+        if count1 >= count:
+            countgood = countgood + count
+        if count > count1:
+            countgood = countgood + count1
+    return countgood
+
+def testforright (guess,secret):
+    count=0
+    for j in range (0,5):
+        if secret[j]==guess[j]:
+            count=count+1
+    return count
+
+# Body of main program goes here
+
+
+pygame.init()
+screen = pygame.display.set_mode([600,900])
+screen.fill([0,0,0])
+pygame.display.flip()
+
+font = pygame.font.Font(None, 50)
+smallfont = pygame.font.Font(None, 30)
+
+
+
+raw_input("Press ENTER to close the graphics window")
+pygame.quit()

@@ -1,0 +1,20 @@
+#### Ceci est une fenetre créer sans image pour qu'on puisse tous travailler dessus 
+
+
+import pygame
+from pygame.locals import*
+pygame.init()
+
+screen=pygame.display.set_mode((1070,795))
+
+def drawborder():
+    pygame.draw.rect(screen,[0,0,0],[0,0,600,600],100)
+    pygame.display.flip()
+    
+for j in range (5,695,81):
+    for i in range(5,1000,81):
+        pygame.draw.rect(screen,[146,146,201],[i,j,80,80],0)
+pygame.display.flip()
+
+pygame.draw.rect(screen,[255,255,255],[491,329,79,79],0)
+pygame.display.flip()

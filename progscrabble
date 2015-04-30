@@ -2,19 +2,40 @@
 
 
 import pygame
+import random
 from pygame.locals import*
 pygame.init()
 
-screen=pygame.display.set_mode((1070,795))
+screen=pygame.display.set_mode((570,650))
 
 def drawborder():
     pygame.draw.rect(screen,[0,0,0],[0,0,600,600],100)
-    pygame.display.flip()
-    
-for j in range (5,695,81):
-    for i in range(5,1000,81):
-        pygame.draw.rect(screen,[146,146,201],[i,j,80,80],0)
 pygame.display.flip()
 
-pygame.draw.rect(screen,[255,255,255],[491,329,79,79],0)
+
+for j in range (3,550,51):
+    for i in range(5,550,51):
+        pygame.draw.rect(screen,[146,146,201],[i,j,50,50],0)
+        
 pygame.display.flip()
+
+pygame.draw.rect(screen,[255,255,255],[260,258,49,49],0)
+pygame.display.flip()
+
+l=["A","A","A","A","A","A","A","A","A","B","B","C","C","D","D","D","E","E","E","E","E","E","E","E","E","E","E","E","E","E","E","F","F","G","G","H","H","I","I","I","I","I","I","I","I","J","K","L","L","L","L","L","M","M","M","N","N","N","N","N","N","O","O","O","O","O","O","P","P","Q","R","R","R","R","R","R","S","S","S","S","S","S","T","T","T","T","T","T","U","U","U","U","U","U","V","V","W","X","Y","Z"]
+l1,l2,l3,l4,l5,l6,l7=random.choice(l),random.choice(l),random.choice(l),random.choice(l),random.choice(l),random.choice(l),random.choice(l)
+li=[l1,l2,l3,l4,l5,l6,l7]
+lis=str(li)
+font = pygame.font.Font(None, 50)
+screentext = font.render(lis, True, [254,255,255], [0,0,0])
+screen.blit(screentext, [5,570])
+pygame.display.flip()
+
+game_over = False
+while not game_over:
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
+            game_over = True
+pygame.quit()
+quit()
+        

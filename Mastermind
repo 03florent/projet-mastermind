@@ -1,13 +1,25 @@
 from pygame import *
 from random import *
+import time
 from pygame.locals import*
 pygame.init()
 
 
 def refresh():
     pygame.display.flip()
+
 ecran=pygame.display.set_mode((600,700))
 
+font = pygame.font.Font(None,100)
+word = "Game on!"
+screentext = font.render(word, True,[156,150,202], [0,0,0])
+ecran.blit(screentext, [100, 300])
+pygame.display.flip()
+
+time.sleep(3)
+
+pygame.draw.rect(ecran,[0,0,0],[100,300,400,400])
+pygame.display.flip()
 
 
 for i in range (100,500,51):
@@ -47,6 +59,18 @@ refresh
 
 game_over = False
 while not game_over:
+     A=0
+    for event in pygame.event.get():
+        if event.type==MOUSEBUTTONDOWN and event.button==3 and 600<event.pos[1]<700:
+            if 75<event.pos[0]<125:
+                A=l[0]
+            elif 126<event.pos[0]<176:
+                A=l[1]
+            elif 177<event.pos[0]<227:
+                A=l[2]
+            print(A)
+            pygame.draw.circle(ecran,A,(150,535),25,0)
+            pygame.display.flip()
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             game_over = True

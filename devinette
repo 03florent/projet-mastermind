@@ -1,0 +1,36 @@
+
+
+import pygame
+import random
+from pygame.locals import*
+pygame.init()
+
+screen=pygame.display.set_mode((270,100))
+
+R=[255,0,0]
+B=[0,0,255]
+V=[0,255,0]
+O=[250,128,0]
+J=[200,250,0]
+
+VI=[169,98,184]
+
+
+l=[R,B,V,O,J,VI,]
+
+a,b,c,d=random.choice(l),random.choice(l),random.choice(l),random.choice(l)
+j=50
+pygame.draw.circle(screen,a,(60,j),25,0)
+pygame.draw.circle(screen,b,(112,j),25,0)
+pygame.draw.circle(screen,c,(163,j),25,0)
+pygame.draw.circle(screen,d,(214,j),25,0)
+
+pygame.display.flip()
+
+game_over = False
+while not game_over:
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
+            game_over = True
+pygame.quit()
+quit()

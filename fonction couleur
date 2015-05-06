@@ -1,0 +1,17 @@
+def couleur(x,y):
+  if event.type==MOUSEBUTTONDOWN and event.button==1 and 600<event.pos[1]<700:
+if 75<event.pos[0]<125:
+A=R
+elif 126<event.pos[0]<176:
+A=B
+elif 177<event.pos[0]<227:
+A=V
+elif 228<event.pos[0]<278:
+A=O
+elif 279<event.pos[0]<329:
+A=J
+elif 330<event.pos[0]<380:
+A=VI
+print(A)
+pygame.draw.circle(ecran,A,(x,y),25,0)
+pygame.display.flip()

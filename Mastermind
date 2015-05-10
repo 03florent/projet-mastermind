@@ -5,12 +5,34 @@ from pygame.locals import*
 
 pygame.init()
 
+L=[]
+def couleur(x,y):
+  A=[80,80,80]
+  if event.type==MOUSEBUTTONDOWN and event.button==1 and 600<event.pos[1]<700:
+      if 75<event.pos[0]<125:
+          A=R
+      elif 126<event.pos[0]<176:
+          A=B
+      elif 177<event.pos[0]<227:
+          A=V
+      elif 228<event.pos[0]<278:
+          A=O
+      elif 279<event.pos[0]<329:
+          A=J
+      elif 330<event.pos[0]<380:
+          A=VI
+      print(A)
+      pygame.draw.circle(ecran,A,(x,y),25,0)
+      L.append(A)
+      print (L)
+      pygame.display.flip()
 
 def refresh():
     pygame.display.flip()
 
 ecran=pygame.display.set_mode((600,700))
 
+smallfont=pygame.font.Font(None,25)
 font = pygame.font.Font(None,100)
 word = "Game on!"
 screentext = font.render(word, True,[156,150,202], [0,0,0])
@@ -51,33 +73,41 @@ pygame.draw.circle(ecran,O,(253,j),25,0)
 pygame.draw.circle(ecran,J,(303,j),25,0)
 pygame.draw.circle(ecran,VI,(353,j),25,0)
 
-
+a,b,c,d=random.choice(l),random.choice(l),random.choice(l),random.choice(l)
 pygame.display.flip()
+li=[a,b,c,d]
 
+print li
 
 game_over = False
+n=0
+y=535
+z=0
+k=0
 while not game_over:
-    A=0
-    for event in pygame.event.get():
-        
-        if event.type==MOUSEBUTTONDOWN and event.button==1 and 600<event.pos[1]<700:
-            if 75<event.pos[0]<125:
-                
-                A=R
-            elif 126<event.pos[0]<176:
-                A=B
-            elif 177<event.pos[0]<227:
-                A=V
-            elif 228<event.pos[0]<278:
-                A=O
-            elif 279<event.pos[0]<329:
-                A=J
-            elif 330<event.pos[0]<380:
-                A=VI
-            print(A)
-            pygame.draw.circle(ecran,A,(151,535),25,0)
-            pygame.display.flip()
-        if event.type==pygame.QUIT:
-            game_over = True
-pygame.quit()
-quit()
+  A=0
+  for event in pygame.event.get():
+      couleur(151+51*n,y)
+      if event.type==MOUSEBUTTONDOWN:
+        n=n+1
+      if n==4:
+        n=0
+        for i in range(0,4):
+          if li[i]==L[i]:
+            z+=1
+          elif L[i] in li and l[i]!=L[i] :
+            k=k+1
+        L=[]
+        nombre=str(z)
+        screentext = smallfont.render(nombre, True,[255,255,255], [0,0,0])
+        ecran.blit(screentext, [60, y])
+        nombre2=str(k)
+        screentext2 = smallfont.render(nombre2, True,[255,0,0], [0,0,0])
+        ecran.blit(screentext2, [450, y])
+        refresh
+        y=y-51
+      if event.type==pygame.QUIT:
+          game_over = True
+          pygame.quit()
+          quit()
+

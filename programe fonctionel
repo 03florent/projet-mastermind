@@ -95,6 +95,8 @@ while not game_over:
             n=n+1
           if event.type==KEYDOWN and event.key==K_LEFT:
             n=n-1
+            if n<0:
+              n=0
           if n==4:
             n=0
             for i in range(0,4):

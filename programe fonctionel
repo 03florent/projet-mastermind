@@ -59,11 +59,9 @@ refresh()
 
 game_over = False
 while not game_over:
-  for event in pygame.event.get(5):
+  for event in pygame.event.get():
     if event.type==MOUSEBUTTONDOWN and 0<event.pos[0]<200:
       ecran=pygame.display.set_mode((500,700))
-      
-      pygame.draw.rect(ecran,[0,0,0],[100,300,400,400])
       refresh()
 
 
@@ -85,7 +83,7 @@ while not game_over:
       pygame.draw.circle(ecran,O,(253,j),25,0)
       pygame.draw.circle(ecran,J,(303,j),25,0)
       pygame.draw.circle(ecran,VI,(353,j),25,0)
-      
+      refresh()
       y=535
   
       while not game_over:

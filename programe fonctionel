@@ -10,6 +10,7 @@ font = pygame.font.Font(None,100)
 L1=[]
 L2=[]
 L=[]
+M=[]
 z=0
 k=0
 n=0
@@ -46,6 +47,9 @@ def couleur(x,y):
           A=VI
       pygame.draw.circle(ecran,A,(x,y),25,0)
       L.append(A)
+      for i in range(0,len(L)-1):
+        if L[i] !+ M:
+          M.append(A)
       pygame.display.flip()
     
 def refresh():
@@ -101,9 +105,10 @@ while not game_over:
             for i in range(0,4):
               if li[i]==L[i]:
                 z+=1
-              elif L[i] in li :
+              elif M[i] in li :
                 k=k+1
             L=[]
+            M=[]
             nombre=str(z)
             screentext = smallfont.render(nombre, True,[255,255,255], [0,0,0])
             ecran.blit(screentext, [60, y])

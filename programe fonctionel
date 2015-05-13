@@ -64,18 +64,18 @@ while not game_over:
       ecran=pygame.display.set_mode((500,700))
       
       pygame.draw.rect(ecran,[0,0,0],[100,300,400,400])
-      refresh
+      refresh()
 
 
       for i in range (100,400,51):
         for j in range(25,600,51):
           pygame.draw.circle(ecran,[255,255,255],(i,j),25,0)
-      pygame.display.flip()
+      refresh()
 
       for i in range(151,349,51):
         for j in range(76,549,51):
           pygame.draw.circle(ecran,[80,80,80],(i,j),25,0)
-      pygame.display.flip()        
+      refresh()        
 
       j=650
 
@@ -112,7 +112,7 @@ while not game_over:
             nombre2=str(k)
             screentext2 = smallfont.render(nombre2, True,[255,0,0], [0,0,0])
             ecran.blit(screentext2, [450, y])
-            refresh
+            refresh()
             y=y-51
             k=0
             if str(z)=="4":
@@ -130,7 +130,7 @@ while not game_over:
               pygame.draw.circle(fond2,c,(262,j),40,0)
               pygame.draw.circle(fond2,d,(343,j),40,0)
               screen.blit(fond2,(0,0))
-              refresh
+              refresh()
               son2.play()
               while not game_over:
                 for event in pygame.event.get():
@@ -145,7 +145,7 @@ while not game_over:
               screen2=pygame.display.set_mode((500,500))
               fond3=pygame.image.load("3.png").convert()
               screen2.blit(fond3,(0,0))
-              refresh
+              refresh()
               while not game_over:
                 son3.play()
                 for event in pygame.event.get():

@@ -31,7 +31,6 @@ son2=pygame.mixer.Sound("13797.wav")
 son3=pygame.mixer.Sound("3672.wav")
 
 def couleur(x,y):
-  A=[80,80,80]
   if event.type==MOUSEBUTTONDOWN and event.button==1 and 600<event.pos[1]<700:
       if 75<event.pos[0]<125:
           A=R

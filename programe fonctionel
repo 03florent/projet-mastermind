@@ -47,9 +47,8 @@ def couleur(x,y):
           A=VI
       pygame.draw.circle(ecran,A,(x,y),25,0)
       L.append(A)
-      for i in range(0,len(L)-1):
-        if L[i] !+ M:
-          M.append(A)
+      if not A in M:
+        M.append(A)
       pygame.display.flip()
     
 def refresh():
@@ -105,8 +104,11 @@ while not game_over:
             for i in range(0,4):
               if li[i]==L[i]:
                 z+=1
-              elif M[i] in li :
-                k=k+1
+            for i in range(0,len(M)):
+              for j in range(0,4):
+                if M[i] == li[j]:
+                  k=K+1
+            k=k-z
             L=[]
             M=[]
             nombre=str(z)

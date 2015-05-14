@@ -25,6 +25,9 @@ l=[R,B,V,O,J,VI]
 
 a,b,c,d=random.choice(l),random.choice(l),random.choice(l),random.choice(l)
 li=[a,b,c,d]
+M=list(li)
+print(li)
+
 
 
 son=pygame.mixer.Sound("7410.wav")
@@ -47,8 +50,6 @@ def couleur(x,y):
           A=VI
       pygame.draw.circle(ecran,A,(x,y),25,0)
       L.append(A)
-      if not A in M:
-        M.append(A)
       pygame.display.flip()
     
 def refresh():
@@ -101,16 +102,29 @@ while not game_over:
               n=0
           if n==4:
             n=0
+            i=0
+            print(li)
+            print(L)
             for i in range(0,4):
               if li[i]==L[i]:
                 z+=1
-            for i in range(0,len(M)):
-              for j in range(0,4):
-                if M[i] == li[j]:
-                  k=K+1
+            
+            i=0
+            j=0
+            while i <(len(L)):
+              while j < (len(M)):
+                if L[i] == M[j]:
+                  k=k+1
+                  del(L[i])
+                  del(M[j])
+                  i=-1
+                  j=(len(M))
+                j=j+1
+              i=i+1
+              j=0
             k=k-z
             L=[]
-            M=[]
+            M=list(li)
             nombre=str(z)
             screentext = smallfont.render(nombre, True,[255,255,255], [0,0,0])
             ecran.blit(screentext, [60, y])

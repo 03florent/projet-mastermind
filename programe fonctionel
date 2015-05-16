@@ -7,27 +7,6 @@ pygame.init()
 smallfont=pygame.font.Font(None,25)
 font = pygame.font.Font(None,100)
 
-L1=[]
-L2=[]
-L=[]
-M=[]
-z=0
-k=0
-n=0
-R=[200,0,0]
-B=[0,0,200]
-V=[0,255,0]
-O=[250,128,0]
-J=[200,250,0]
-VI=[169,98,184]
-
-l=[R,B,V,O,J,VI]
-
-a,b,c,d=random.choice(l),random.choice(l),random.choice(l),random.choice(l)
-li=[a,b,c,d]
-M=list(li)
-print(li)
-
 
 
 son=pygame.mixer.Sound("7410.wav")
@@ -62,6 +41,21 @@ refresh()
 
 game_over = False
 while not game_over:
+  L=[]
+  M=[]
+  z=0
+  k=0
+  n=0
+  R=[200,0,0]
+  B=[0,0,200]
+  V=[0,255,0]
+  O=[250,128,0]
+  J=[200,250,0]
+  VI=[169,98,184]
+  l=[R,B,V,O,J,VI]
+  a,b,c,d=random.choice(l),random.choice(l),random.choice(l),random.choice(l)
+  li=[a,b,c,d]
+  M=list(li)
   jeu = False
   for event in pygame.event.get():
     if event.type==MOUSEBUTTONDOWN and 0<event.pos[0]<200:
@@ -103,10 +97,10 @@ while not game_over:
             if n<0:
               n=0
           if n==4:
-            n=0
-            i=0
             print(li)
             print(L)
+            n=0
+            i=0
             for i in range(0,4):
               if li[i]==L[i]:
                 z+=1
@@ -116,8 +110,7 @@ while not game_over:
               while j < (len(M)):
                 if L[i] == M[j]:
                   k=k+1
-                  del(L[i])
-                  del(M[j])
+                  del(L[i],M[j])
                   i=-1
                   j=(len(M))
                 j=j+1
@@ -149,7 +142,10 @@ while not game_over:
               son2.play()
               while jeu == False:
                 if event.type==MOUSEBUTTONDOWN and event.button==1 :
-                  jeu = True                  
+                  jeu = True
+                if event.type==pygame.QUIT:
+                  game_over = True
+                  jeu = True
             if z==4:
               screen2=pygame.display.set_mode((500,500))
               fond3=pygame.image.load("3.png").convert()
@@ -158,11 +154,11 @@ while not game_over:
               son3.play()
               while jeu == False:
                 if event.type==MOUSEBUTTONDOWN and event.button==1 :
-                  jeu = True                
+                  jeu = True
+                if event.type==pygame.QUIT:
+                  game_over = True
+                  jeu = True
             else:
               z=0
-            
-    if event.type==pygame.QUIT:
-        game_over = True
-        pygame.quit()
-        quit()
+pygame.quit()
+quit()

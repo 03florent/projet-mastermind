@@ -1,6 +1,5 @@
 import pygame
 import random
-import time
 from pygame.locals import*
 pygame.init()
 
@@ -8,31 +7,68 @@ smallfont=pygame.font.Font(None,25)
 font = pygame.font.Font(None,100)
 
 
+R=[200,0,0]
+B=[0,0,200]
+V=[0,255,0]
+O=[250,128,0]
+J=[200,250,0]
+VI=[169,98,184]
+
+l=[R,B,V,O,J,VI]
+
+a,b,c,d=random.choice(l),random.choice(l),random.choice(l),random.choice(l)
+li=[a,b,c,d]
+M=list(li)
+
+
 
 son=pygame.mixer.Sound("7410.wav")
 son2=pygame.mixer.Sound("13797.wav")
 son3=pygame.mixer.Sound("3672.wav")
 
+def refresh():
+    pygame.display.flip()
+    
 def couleur(x,y):
-  if event.type==MOUSEBUTTONDOWN and event.button==1 and 600<event.pos[1]<700:
-      if 75<event.pos[0]<125:
+  if event.type==MOUSEBUTTONDOWN and 600<event.pos[1]<700:
+      if 60<event.pos[0]<120:
           A=R
-      elif 126<event.pos[0]<176:
+      elif 122<event.pos[0]<182:
           A=B
-      elif 177<event.pos[0]<227:
+      elif 184<event.pos[0]<242:
           A=V
-      elif 228<event.pos[0]<278:
+      elif 244<event.pos[0]<304:
           A=O
-      elif 279<event.pos[0]<329:
+      elif 306<event.pos[0]<366:
           A=J
-      elif 330<event.pos[0]<379:
+      elif 368<event.pos[0]<428:
           A=VI
       pygame.draw.circle(ecran,A,(x,y),25,0)
       L.append(A)
-      pygame.display.flip()
+      refresh()
     
 def refresh():
     pygame.display.flip()
+    
+def decor():
+    for i in range (100,400,51):
+        for j in range(25,600,51):
+          pygame.draw.circle(ecran,[255,255,255],(i,j),25,0)
+
+    for i in range(151,349,51):
+        for j in range(76,549,51):
+          pygame.draw.circle(ecran,[80,80,80],(i,j),25,0)
+    refresh()        
+
+    j=650
+    x=90
+    for i in range(0,6):
+          w=l[i]
+          pygame.draw.circle(ecran,w,(x,j),30,0)
+          x+=62
+          i=-1
+          w=l[i+1]
+          refresh()
 
 fenetre=pygame.display.set_mode((500,500))
 fond=pygame.image.load("1.png").convert()
@@ -42,48 +78,15 @@ refresh()
 game_over = False
 while not game_over:
   L=[]
-  M=[]
   z=0
   k=0
   n=0
-  R=[200,0,0]
-  B=[0,0,200]
-  V=[0,255,0]
-  O=[250,128,0]
-  J=[200,250,0]
-  VI=[169,98,184]
-  l=[R,B,V,O,J,VI]
-  a,b,c,d=random.choice(l),random.choice(l),random.choice(l),random.choice(l)
-  li=[a,b,c,d]
-  M=list(li)
   jeu = False
   for event in pygame.event.get():
     if event.type==MOUSEBUTTONDOWN and 0<event.pos[0]<200:
       ecran=pygame.display.set_mode((500,700))
-      refresh()
-
-
-      for i in range (100,400,51):
-        for j in range(25,600,51):
-          pygame.draw.circle(ecran,[255,255,255],(i,j),25,0)
-      refresh()
-
-      for i in range(151,349,51):
-        for j in range(76,549,51):
-          pygame.draw.circle(ecran,[80,80,80],(i,j),25,0)
-      refresh()        
-
-      j=650
-
-      pygame.draw.circle(ecran,R,(100,j),25,0)
-      pygame.draw.circle(ecran,B,(151,j),25,0)
-      pygame.draw.circle(ecran,V,(201,j),25,0)
-      pygame.draw.circle(ecran,O,(253,j),25,0)
-      pygame.draw.circle(ecran,J,(303,j),25,0)
-      pygame.draw.circle(ecran,VI,(353,j),25,0)
-      refresh()
+      decor()
       y=535
-  
       while not jeu :
         A=0
         for event in pygame.event.get():
@@ -97,8 +100,6 @@ while not game_over:
             if n<0:
               n=0
           if n==4:
-            print(li)
-            print(L)
             n=0
             i=0
             for i in range(0,4):
@@ -110,7 +111,8 @@ while not game_over:
               while j < (len(M)):
                 if L[i] == M[j]:
                   k=k+1
-                  del(L[i],M[j])
+                  del(L[i])
+                  del(M[j])
                   i=-1
                   j=(len(M))
                 j=j+1
@@ -143,22 +145,26 @@ while not game_over:
               while jeu == False:
                 if event.type==MOUSEBUTTONDOWN and event.button==1 :
                   jeu = True
-                if event.type==pygame.QUIT:
-                  game_over = True
-                  jeu = True
+                  refresh()
             if z==4:
-              screen2=pygame.display.set_mode((500,500))
+              screen2=pygame.display.set_mode((425,420))
               fond3=pygame.image.load("3.png").convert()
               screen2.blit(fond3,(0,0))
               refresh()
               son3.play()
               while jeu == False:
-                if event.type==MOUSEBUTTONDOWN and event.button==1 :
+                if event.type==MOUSEBUTTONDOWN:
                   jeu = True
-                if event.type==pygame.QUIT:
-                  game_over = True
-                  jeu = True
-            else:
-              z=0
-pygame.quit()
-quit()
+                  refresh()
+            z=0
+            k=0
+        if event.type==pygame.QUIT:
+            game_over = True
+            pygame.quit()
+            quit()
+        
+   
+    if event.type==pygame.QUIT:
+        game_over = True
+        pygame.quit()
+        quit()

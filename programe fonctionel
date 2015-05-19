@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 from pygame.locals import*
 pygame.init()
 
@@ -70,12 +71,25 @@ def decor():
           w=l[i+1]
           refresh()
 
+def perdu():
+              screen=pygame.display.set_mode((425,420))
+              fond2=pygame.image.load("2.png").convert()
+              j=200
+              pygame.draw.circle(fond2,a,(100,j),40,0)
+              pygame.draw.circle(fond2,b,(181,j),40,0)
+              pygame.draw.circle(fond2,c,(262,j),40,0)
+              pygame.draw.circle(fond2,d,(343,j),40,0)
+              screen.blit(fond2,(0,0))
+              refresh()
+              son2.play()
+
 fenetre=pygame.display.set_mode((500,500))
 fond=pygame.image.load("1.png").convert()
 fenetre.blit(fond,(0,0))
 refresh()
 
 game_over = False
+
 while not game_over:
   L=[]
   z=0
@@ -83,12 +97,26 @@ while not game_over:
   n=0
   jeu = False
   for event in pygame.event.get():
-    if event.type==MOUSEBUTTONDOWN and 0<event.pos[0]<200:
+
+    if event.type==MOUSEBUTTONDOWN and 239<event.pos[0]<384 and 195<event.pos[1]<278:
+         fichier=open('regle.txt','r')
+         chaine=fichier.read()
+         print(chaine)
+
+    if event.type==MOUSEBUTTONDOWN and 36<event.pos[0]<163 and 202<event.pos[1]<271:
       ecran=pygame.display.set_mode((500,700))
       decor()
       y=535
       while not jeu :
+        stop = False
         A=0
+        t1=pygame.time.get_ticks()/1000
+        timer=smallfont.render(str(t1), True,[255,255,255], [0,0,0])
+        ecran.blit(timer,(460,3))
+        refresh()
+        if t1>300:
+             stop=True
+             
         for event in pygame.event.get():
           couleur(151+51*n,y)
           if event.type==MOUSEBUTTONDOWN and 600<event.pos[1]<700:
@@ -123,29 +151,21 @@ while not game_over:
             M=list(li)
             nombre=str(z)
             screentext = smallfont.render(nombre, True,[255,255,255], [0,0,0])
-            ecran.blit(screentext, [60, y])
+            ecran.blit(screentext, [55, y])
             nombre2=str(k)
             screentext2 = smallfont.render(nombre2, True,[255,0,0], [0,0,0])
-            ecran.blit(screentext2, [450, y])
+            ecran.blit(screentext2, [395, y])
             refresh()
             y=y-51
             k=0
+           
             if y<76 and z<4:
-              y=-100
-              screen=pygame.display.set_mode((425,420))
-              fond2=pygame.image.load("2.png").convert()
-              j=200
-              pygame.draw.circle(fond2,a,(100,j),40,0)
-              pygame.draw.circle(fond2,b,(181,j),40,0)
-              pygame.draw.circle(fond2,c,(262,j),40,0)
-              pygame.draw.circle(fond2,d,(343,j),40,0)
-              screen.blit(fond2,(0,0))
-              refresh()
-              son2.play()
-              while jeu == False:
-                if event.type==MOUSEBUTTONDOWN and event.button==1 :
+               y=-100
+               perdu()
+               while jeu == False:
+                if event.type==KEYDOWN:
                   jeu = True
-                  refresh()
+                refresh()
             if z==4:
               screen2=pygame.display.set_mode((425,420))
               fond3=pygame.image.load("3.png").convert()
@@ -153,17 +173,24 @@ while not game_over:
               refresh()
               son3.play()
               while jeu == False:
-                if event.type==MOUSEBUTTONDOWN:
+                if event.type==KEYDOWN:
                   jeu = True
-                  refresh()
+                refresh
             z=0
             k=0
+
+        if stop == True:
+            perdu()
+            while jeu == False:
+                if event.type==KEYDOWN:
+                  jeu = True
+                refresh()
+        
         if event.type==pygame.QUIT:
             game_over = True
             pygame.quit()
             quit()
         
-   
     if event.type==pygame.QUIT:
         game_over = True
         pygame.quit()

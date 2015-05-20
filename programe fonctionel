@@ -48,9 +48,6 @@ def couleur(x,y):
       L.append(A)
       refresh()
     
-def refresh():
-    pygame.display.flip()
-    
 def decor():
     for i in range (100,400,51):
         for j in range(25,600,51):

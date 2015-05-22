@@ -1,36 +1,35 @@
+# -*- coding: cp1252 -*-
 import pygame
 import random
 import time
 from pygame.locals import*
-pygame.init()
+
+p=pygame.init()
+
 
 smallfont=pygame.font.Font(None,25)
 font = pygame.font.Font(None,100)
 
-
-R=[200,0,0]
-B=[0,0,200]
-V=[0,255,0]
+########################################################Les différentes couleurs possibles############################################################################
+R=[237,28,36]
+B=[0,128,255]
+V=[181,230,29]
 O=[250,128,0]
-J=[200,250,0]
-VI=[169,98,184]
+J=[255,255,0]
+VI=[128,0,128]
 
 l=[R,B,V,O,J,VI]
 
-a,b,c,d=random.choice(l),random.choice(l),random.choice(l),random.choice(l)
-li=[a,b,c,d]
-M=list(li)
-
-
-
+###########################################################tous les sons utilisés#############################################################################
 son=pygame.mixer.Sound("7410.wav")
 son2=pygame.mixer.Sound("13797.wav")
 son3=pygame.mixer.Sound("3672.wav")
+son4=pygame.mixer.Sound("1943.wav")
 
-def refresh():
+def refresh():          # Une fonction qui permet de ne pas écrire l'actualisation à chaque fois
     pygame.display.flip()
     
-def couleur(x,y):
+def couleur(x,y):                   # Une fonction qui va permettre de faire un rond de la couleur sur laquelle le joueur clique
   if event.type==MOUSEBUTTONDOWN and 600<event.pos[1]<700:
       if 60<event.pos[0]<120:
           A=R
@@ -45,10 +44,10 @@ def couleur(x,y):
       elif 368<event.pos[0]<428:
           A=VI
       pygame.draw.circle(ecran,A,(x,y),25,0)
-      L.append(A)
+      L.append(A) # On met toutes les couleurs choisies dans une liste
       refresh()
     
-def decor():
+def decor():                    # la plateforme de jeu avec un repère définit par nous même pour que ce soit plus facile           
     for i in range (100,400,51):
         for j in range(25,600,51):
           pygame.draw.circle(ecran,[255,255,255],(i,j),25,0)
@@ -60,7 +59,7 @@ def decor():
 
     j=650
     x=90
-    for i in range(0,6):
+    for i in range(0,6):            # Dessin des rond de chaque couleurs de la liste l définie précédemment
           w=l[i]
           pygame.draw.circle(ecran,w,(x,j),30,0)
           x+=62
@@ -68,8 +67,8 @@ def decor():
           w=l[i+1]
           refresh()
 
-def perdu():
-              screen=pygame.display.set_mode((425,420))
+def perdu():                                            # dessin des solutions sur une nouvelle fenêtre qu'on va coller sur la première
+              screen=pygame.display.set_mode((422,418))
               fond2=pygame.image.load("2.png").convert()
               j=200
               pygame.draw.circle(fond2,a,(100,j),40,0)
@@ -80,7 +79,7 @@ def perdu():
               refresh()
               son2.play()
 
-fenetre=pygame.display.set_mode((500,500))
+fenetre=pygame.display.set_mode((422,418)) # Une première fenêtre avec le menu
 fond=pygame.image.load("1.png").convert()
 fenetre.blit(fond,(0,0))
 refresh()
@@ -88,32 +87,49 @@ refresh()
 game_over = False
 
 while not game_over:
+  pygame.init()
+  a,b,c,d=random.choice(l),random.choice(l),random.choice(l),random.choice(l) # On choisit quatre couleurs parmis toutes celles proposées
+  li=[a,b,c,d] # On fait une liste des couleurs choisies aléatoirement
+  M=list(li) # Une nouvelle liste contenant les memes termes que li
   L=[]
   z=0
   k=0
   n=0
-  jeu = False
+  jeu = 0
   for event in pygame.event.get():
-
-    if event.type==MOUSEBUTTONDOWN and 239<event.pos[0]<384 and 195<event.pos[1]<278:
+    if event.type==MOUSEBUTTONDOWN and 227<event.pos[0]<377 and 313<event.pos[1]<394:
          fichier=open('regle.txt','r')
          chaine=fichier.read()
          print(chaine)
-
-    if event.type==MOUSEBUTTONDOWN and 36<event.pos[0]<163 and 202<event.pos[1]<271:
+    if event.type==MOUSEBUTTONDOWN and 30<event.pos[0]<170 and 309<event.pos[1]<360:
       ecran=pygame.display.set_mode((500,700))
       decor()
       y=535
-      while not jeu :
+      pygame.init()
+      while jeu ==0 :
+        pygame.init()
         stop = False
         A=0
-        t1=pygame.time.get_ticks()/1000
-        timer=smallfont.render(str(t1), True,[255,255,255], [0,0,0])
-        ecran.blit(timer,(460,3))
+
+        t1=int(pygame.time.get_ticks()/1000) #Compte le nombre de seconde après que la fenêtre ce soit affichée
+        timer=smallfont.render(str(t1), True,[255,255,255], [0,0,0])# Affiche le nombre de seconde
+        ecran.blit(timer,(440,3))
         refresh()
-        if t1>300:
+        if t1>120:                  # on laisse 2 minutes au joueur pour trouver la réponse soit 120 secondes
              stop=True
-             
+        if 110<t1<120:
+            son4.play()
+            timer=smallfont.render(str(t1), True,[255,0,0], [0,0,0])# Affiche le nombre de seconde
+            ecran.blit(timer,(440,3))
+            refresh()
+        if stop == True:
+            perdu()
+            t1=t1-120
+            while jeu !=1:
+                if event.type==MOUSEBUTTONDOWN:
+                  jeu = 1
+                refresh()
+
         for event in pygame.event.get():
           couleur(151+51*n,y)
           if event.type==MOUSEBUTTONDOWN and 600<event.pos[1]<700:
@@ -159,36 +175,30 @@ while not game_over:
             if y<76 and z<4:
                y=-100
                perdu()
-               while jeu == False:
-                if event.type==KEYDOWN:
-                  jeu = True
+               while jeu !=1:
+                if event.type==MOUSEBUTTONDOWN:
+                  t1=t1-t1
+                  jeu = 1
                 refresh()
             if z==4:
-              screen2=pygame.display.set_mode((425,420))
+              screen2=pygame.display.set_mode((422,418))
               fond3=pygame.image.load("3.png").convert()
               screen2.blit(fond3,(0,0))
               refresh()
               son3.play()
-              while jeu == False:
-                if event.type==KEYDOWN:
-                  jeu = True
+              while jeu !=1:
+                if event.type==MOUSEBUTTONDOWN:
+                  t1=t1-t1
+                  jeu = 1
                 refresh
             z=0
             k=0
 
-        if stop == True:
-            perdu()
-            while jeu == False:
-                if event.type==KEYDOWN:
-                  jeu = True
-                refresh()
         
         if event.type==pygame.QUIT:
-            game_over = True
             pygame.quit()
             quit()
         
     if event.type==pygame.QUIT:
-        game_over = True
         pygame.quit()
         quit()

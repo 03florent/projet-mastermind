@@ -17,10 +17,10 @@ B=[0,128,255]#Bleu
 V=[181,230,29]#Vert
 O=[250,128,0]#Orange 
 J=[255,255,0]#jaune
-VI=[128,0,128]#Violet
+VI=[128,52,128]#Violet
 
 l=[R,B,V,O,J,VI] 
-
+r=0
 
 ###########################################################tous les sons utilisés#######################################################################################
 son=pygame.mixer.Sound("7410.wav")
@@ -107,32 +107,33 @@ while not game_over:  # Pour que la fenêtre reste ouverte
       ecran=pygame.display.set_mode((500,700))# Une nouvelle fenêtre plus grande pour le jeu
       decor() # on dessine le décor et la plateforme de jeu
       y=535
-      
+
+      t1=0
       while jeu ==0 :
         stop = False # Nouvelle condition pour le temps
         A=0 # la variable à laquelle on va affecter les couleurs sélectionnées 
         t=int(pygame.time.get_ticks()/1000) #Compte le nombre de seconde après que la fenêtre ce soit affichée
-        timer=smallfont.render(str(t), True,[255,255,255], [0,0,0])# Affiche le nombre de seconde
+        timer=smallfont.render(str(t-t1), True,[255,255,255], [0,0,0])# Affiche le nombre de seconde
         ecran.blit(timer,(440,3))
         refresh()
   
-        if t>120:                  # quand le joueur dépasse les 120 secondes accordées
+        if t-t1>120:                  # quand le joueur dépasse les 120 secondes accordées
              stop=True              # stop devient vrai
-        if 110<t<120:   # Quand il reste dix secondes
+        if 110<t-t1<120:   # Quand il reste dix secondes
             son4.play()
-            timer=smallfont.render(str(t), True,[255,0,0], [0,0,0])# Affiche le nombre de seconde resttante en clignotant en rouge
+            timer=smallfont.render(str(t-t1), True,[255,0,0], [0,0,0])# Affiche le nombre de seconde resttante en clignotant en rouge
             ecran.blit(timer,(440,3))
             refresh()
-        if stop == True: # Quand stop est vrai
+
+        for event in pygame.event.get(): # pour tous les évènements dans pygame
+          couleur(151+51*n,y) # On fait marché la fonction couleur sur le rond gris de rang n
+          if stop == True: # Quand stop est vrai
             perdu()  # On affiche la fenêtre perdu avec les solutions
             while jeu !=1: # La fenêtre perdu reste ouverte
                 if event.type==MOUSEBUTTONDOWN:# lorsque le joueur clique sur rejouer
-                  t=0
+                  r=120
                   jeu = 1 # la fenêtre perdu se ferme, on sort de cette boucle pour retourner dans la première boucle
-                refresh()
-               
-        for event in pygame.event.get(): # pour tous les évènements dans pygame
-          couleur(151+51*n,y) # On fait marché la fonction couleur sur le rond gris de rang n
+                  refresh()
           if event.type==MOUSEBUTTONDOWN and 600<event.pos[1]<700: #Quand le joueur clique sur les couleurs proposées
             son.play()
             n=n+1   # on passe sur le prochain rond gris
@@ -175,11 +176,11 @@ while not game_over:  # Pour que la fenêtre reste ouverte
             if y<76 and z<4: # Quand le joueur a fini de remplir toutes les rangées sans trouver le code
                y=-100
                perdu() # On affiche la fenêtre perdu
-               while jeu !=1:
+               while jeu ! =1:
                 if event.type==MOUSEBUTTONDOWN:
-                  t=0
+                  r=t
                   jeu = 1
-                refresh()
+                  refresh()
 
             if z==4:  # Quand le joueur a réussi à trouver le code de couleur 
               screen2=pygame.display.set_mode((422,418))# Nouvelle fenêtre 
@@ -187,17 +188,17 @@ while not game_over:  # Pour que la fenêtre reste ouverte
               screen2.blit(fond3,(0,0))# On colle l'image dans la fenêtre
               refresh()
               son3.play()
-              while jeu !=1:
+              while jeu ! =1:
                 if event.type==MOUSEBUTTONDOWN:
-                  t=0
+                  r=t
                   jeu = 1
-                refresh
+                refresh()
             z=0
             k=0
+        t1=r
 
-        
         if event.type==pygame.QUIT:
-            pygame.quit()
+            pygame.quit 
             quit()    # Pour fermer la fenêtre de jeu
         
     if event.type==pygame.QUIT:
